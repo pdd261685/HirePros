@@ -16,13 +16,13 @@
 
     @foreach (Professional prof in Model)
     {
-        <tr>
-            <td>@prof.Name</td>
-            <td>@prof.Description</td>
-            <td>@prof.Email</td>
-            <td><a asp-controller="Professional" asp-action="Service" asp-route-id="@prof.ServicesID">@prof.Services.ServiceName</a></td>
-
-        </tr>
+<tr>
+    <td>@prof.Name</td>
+    <td>@prof.Description</td>
+    <td>@prof.Email</td>
+    <td><a asp-controller="Professional" asp-action="Service" asp-route-id="@prof.ServicesID">@prof.Services.ServiceName</a></td>
+    <td><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@prof.ServicesID">Shortlist</a></td>
+</tr>
     }
 </table>
 

@@ -21,16 +21,14 @@ namespace HirePros.Controllers
         }
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserName") == "Admin")
-            {
+            
                 IList<Professional> professionals = context.Professionals.Include(p => p.Services).ToList();
-                //accessed by context as Professionals ia a dbset that holds on to Professional class objects and turn that dbset into a list
-
+                //accessed by context as Professionals ia a dbset that holds on to Professional class objects and turn that dbset into a l
 
                 return View(professionals);
-            }
+            
 
-            return Redirect("User/Index?username="+ HttpContext.Session.GetString("UserName"));
+           // return Redirect("User/Index?username="+ HttpContext.Session.GetString("UserName"));
             //return Redirect("Home");
             
         }
@@ -38,13 +36,12 @@ namespace HirePros.Controllers
         public IActionResult Add()
         {
             //Viemodel will take the list of categories and create a select list with the below
-            if (HttpContext.Session.GetString("UserName") == "Admin")
-            {
+            
                 AddProfessionalViewModel addProfessionalViewModel = new AddProfessionalViewModel(context.Services.ToList());
                 ViewBag.Title = "Professionals";
                 return View(addProfessionalViewModel);
-            }
-            return Redirect("/User/Index?username=" + HttpContext.Session.GetString("UserName"));
+            
+            //return Redirect("/User/Index?username=" + HttpContext.Session.GetString("UserName"));
         }
 
         [HttpPost]

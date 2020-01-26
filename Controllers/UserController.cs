@@ -67,13 +67,17 @@ namespace HirePros.Controllers
         [HttpPost]
         public IActionResult Login(AddUserViewModel addUserViewModel)
         {
-            User newUser = context.Users.Single(u => u.Username == addUserViewModel.Username);
-            if (newUser!=null)
+           
+            User newUser = context.Users.Where(u => u.Username == addUserViewModel.Username).FirstOrDefault();
+            //using whree and not Single to account for if the login account enterd doesnt exist
+            if (newUser == null)
+            {
+                ViewBag.error = "Invalid Login";
+            }
+            else
             {
                
-                //HttpContext.Session session= new HttpContext.Session() { newUser.Username };
-                HttpContext.Session.SetString("UserName", newUser.Username);
-                if(newUser.Username=="Admin")
+                if (newUser.Username=="Admin")
                 {
                     return Redirect("Index?username="+newUser.Username);
                 }
@@ -100,7 +104,7 @@ namespace HirePros.Controllers
         //Menu/AddPros/3
         public IActionResult AddUserPros(int id)
         {
-            User user = context.Users.Single(u => u.ID == id);
+            User user = context.Users.Where(u => u.ID == id).FirstOrDefault();
             List<Professional> profs = context.Professionals.ToList();
             AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
             return View(addUserProfViewModel);

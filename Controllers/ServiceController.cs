@@ -8,6 +8,7 @@ using HirePros.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace HirePros.Controllers
 {
     public class ServiceController : Controller
@@ -32,12 +33,11 @@ namespace HirePros.Controllers
         //Get Controller
         public IActionResult Add()
         {
-            if (HttpContext.Session.GetString("UserName") == "Admin")
-            {
+            
                 AddServiceViewModel addServiceViewModel = new AddServiceViewModel();
                 return View(addServiceViewModel);
-            }
-            return Redirect("/User/Index?username=" + HttpContext.Session.GetString("UserName"));
+            
+            //return Redirect("/User/Index?username=" + HttpContext.Session.GetString("UserName"));
 
 
         }

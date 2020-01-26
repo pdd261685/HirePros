@@ -1,0 +1,23 @@
+﻿@model HirePros.ViewModels.AddUserViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+    <body>
+        <h1>Login</h1>
+        <form asp-controller="User" asp-action="Login" method="post">
+
+            <div class="form-group">
+                <label asp-for="@Model.Username"></label><br />
+                <input class="form-control" asp-for="@Model.Username" value="@Model.Username" />
+                <span asp-validation-for="@Model.Username"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Password"></label><br />
+                <input class="form-control" asp-for="@Model.Password" />
+                <span asp-validation-for="@Model.Password"></span>
+            </div>
+
+            <input type="submit" value="Login" />
+        </form>
+    </body>

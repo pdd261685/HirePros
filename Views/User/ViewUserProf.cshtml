@@ -1,0 +1,25 @@
+﻿
+@model HirePros.ViewModels.ViewUserProfViewModel
+
+<h1>Welcome @Model.User.Username , your shortlisted professionals:</h1>
+
+
+<ul>
+    @foreach (var userProf in Model.Listing)
+    {
+        <li>@userProf.Professional.Name</li>
+    }
+</ul>
+
+@if (Model.Listing.Count == 0)
+{
+    <p><i>No professionals selected yet</i></p>
+}
+else
+{
+    <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
+    <br />
+
+    <p><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.User.ID">Looking for Pros to Hire</a></p>
+}
+

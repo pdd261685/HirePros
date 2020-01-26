@@ -1,0 +1,30 @@
+﻿
+@model List<HirePros.Models.Professional>
+
+
+<h1>@ViewBag.Title</h1>
+
+
+<table class="table">
+
+    <tr>
+        <th>Company/Professional Name</th>
+        <th>Description</th>
+        <th>Email</th>
+        <th>Services</th>
+    </tr>
+
+    @foreach (Professional prof in Model)
+    {
+        <tr>
+            <td>@prof.Name</td>
+            <td>@prof.Description</td>
+            <td>@prof.Email</td>
+            <td><a asp-controller="Professional" asp-action="Service" asp-route-id="@prof.ServicesID">@prof.Services.ServiceName</a></td>
+
+        </tr>
+    }
+</table>
+
+
+

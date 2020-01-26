@@ -1,0 +1,33 @@
+﻿@model HirePros.ViewModels.AddUserViewModel
+
+
+<h1>User Signup </h1>
+<form method="post">
+
+    <div class="form-group">
+        <label asp-for="@Model.Username"></label><br />
+        <input class="form-control" asp-for="@Model.Username" value="@Model.Username" />
+        <span asp-validation-for="@Model.Username"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Email"></label><br />
+        <input class="form-control" asp-for="@Model.Email" value="@Model.Email" />
+        <span asp-validation-for="@Model.Email"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Password"></label><br />
+        <input class="form-control" asp-for="@Model.Password" />
+        <span asp-validation-for="@Model.Password"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.Verify"></label><br />
+        <input class="form-control" asp-for="@Model.Verify" />
+        <span asp-validation-for="@Model.Verify"></span>
+    </div>
+
+    <input type="submit" value="SignUp" />
+</form>
+

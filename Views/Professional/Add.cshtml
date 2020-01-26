@@ -1,0 +1,33 @@
+﻿
+@model HirePros.ViewModels.AddProfessionalViewModel
+
+<h1>Add Professionals</h1>
+
+<form asp-controller="Professional" asp-action="Add" method="post">
+
+    <div class="form-group">
+        <label asp-for="Name"></label><br />
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label><br />
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label><br />
+        <input type="email" class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Services"></label><br />
+        <select asp-for="ServicesID" asp-items="Model.Services"></select>
+    </div>
+
+    <input type="submit" value="Add Professional" />
+
+</form>
+
+
+

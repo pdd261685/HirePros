@@ -1,0 +1,29 @@
+﻿@model HirePros.Models.User
+
+<h1>Welcome @ViewBag.Username</h1>
+
+@if (Model.Username.Equals("Admin"))
+{
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Professional" asp-action="Index">Professional</a>
+    </li>
+    <li><a asp-controller="Professional" asp-action="Add">Add Professional</a></li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Service" asp-action="Index">Service</a>
+    </li>
+    <li><p><a asp-controller="Service" asp-action="Add">Add Services</a></p> </li>
+</ul>
+ }
+else
+{
+
+    <p><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.ID">Add new professional to list</a></p>
+
+    <p><a asp-controller="User" asp-action="ViewUserProf" asp-route-id="@Model.ID">Your list</a></p>
+
+
+}
+
+
+

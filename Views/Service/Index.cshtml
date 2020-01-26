@@ -1,0 +1,16 @@
+﻿
+@model List<HirePros.Models.Services>
+
+<h1>My Services</h1>
+
+<ul>
+    @foreach (Services serv in Model)
+    {
+        <li><a asp-controller="Professional" asp-action="Service" asp-route-id="@serv.ID">@serv.ServiceName</a></li>
+    }
+</ul>
+
+
+
+
+

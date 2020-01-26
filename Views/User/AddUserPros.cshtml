@@ -1,0 +1,17 @@
+﻿
+@model HirePros.ViewModels.AddUserProfViewModel
+
+<form asp-controller="User" asp-action="AddUserPros" method="post">
+    <div class="form-group">
+        <label asp-for="ProfessionalID"> </label>
+        <select asp-for="ProfessionalID" asp-items="Model.Professionals"> </select>
+        <span asp-validation-for="ProfessionalID"></span>
+
+    </div>
+
+    <input type="hidden" name="UserID" value="@Model.User.ID">
+
+
+    <input type="submit" value="Shortlist Professional" />
+
+</form>

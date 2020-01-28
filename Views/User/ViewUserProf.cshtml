@@ -4,21 +4,44 @@
 <h1>Welcome @Model.User.Username , your shortlisted professionals:</h1>
 
 
-<ul>
+<table class="table">
+
+    <tr>
+        <th>Company/Professional Name</th>
+        <th>Description</th>
+        <th>Email</th>
+        <th>Services</th>
+        <th></th>
+    </tr>
     @foreach (var userProf in Model.Listing)
     {
-        <li>@userProf.Professional.Name</li>
-    }
-</ul>
+<tr>
 
-@if (Model.Listing.Count == 0)
-{
-    <p><i>No professionals selected yet</i></p>
-}
+
+    <td>@userProf.Professional.Name</td>
+    <td>@userProf.Professional.Description</td>
+    <td>@userProf.Professional.Email</td>
+    <td>@userProf.Professional.Services</td>
+    <td> <a asp-controller="User" asp-action="Message" asp-route-id="@userProf.UserID">Message Pro</a></td>
+
+</tr>
+     }
+    </table>
+
+    @if (Model.Listing.Count == 0)
+    {
+        <p><i>No professionals selected yet</i></p>
+    }
+
+
+    <div class="col-lg-8 align-self-baseline">
+        <p class="text-white-75 font-weight-light mb-5">Looking for more pros to hire</p>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.User.ID">Find Pros</a>
+    </div>
 
     <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
     <br />
 
-    <p><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.User.ID">Looking for Pros to Hire</a></p>
+
 
 

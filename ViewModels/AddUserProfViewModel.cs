@@ -16,6 +16,7 @@ namespace HirePros.ViewModels
         public int UserID { get; set; }
         public int ProfessionalID { get; set; }
 
+        public string UserMessage { get; set; }
         public AddUserProfViewModel() { }
 
         public AddUserProfViewModel(User user, IEnumerable<Professional> profs)
@@ -31,6 +32,7 @@ namespace HirePros.ViewModels
                 });
             }
             User = user;
+            
         }
 
 

@@ -1,9 +1,8 @@
 ﻿
 @model List<HirePros.Models.Professional>
 
-
-<h1>@ViewBag.Title</h1>
-
+<h2>Hello @User.Identity.Name</h2>
+<h3>@ViewBag.Title</h3>
 
 <table class="table">
 
@@ -21,7 +20,8 @@
     <td>@prof.Description</td>
     <td>@prof.Email</td>
     <td><a asp-controller="Professional" asp-action="Service" asp-route-id="@prof.ServicesID">@prof.Services.ServiceName</a></td>
-    <td><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@prof.ServicesID">Shortlist</a></td>
+  
+
 </tr>
     }
 </table>

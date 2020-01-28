@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HirePros.Data;
 using HirePros.Models;
 using HirePros.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,7 @@ namespace HirePros.Controllers
         }
 
         //Get Controller
+        
         public IActionResult Index()
         {
             
@@ -31,6 +33,7 @@ namespace HirePros.Controllers
         }
 
         //Get Controller
+        [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
             

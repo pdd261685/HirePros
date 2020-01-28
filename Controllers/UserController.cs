@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HirePros.Data;
 using HirePros.Models;
 using HirePros.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -67,31 +70,79 @@ namespace HirePros.Controllers
         [HttpPost]
         public IActionResult Login(AddUserViewModel addUserViewModel)
         {
-           
-            User newUser = context.Users.Where(u => u.Username == addUserViewModel.Username).FirstOrDefault();
+
+            User newUser = context.Users.Where(u => u.Username == addUserViewModel.Username & u.Password == addUserViewModel.Password).FirstOrDefault();
+            
+            ClaimsIdentity identity = null;
+            bool isAuthenticated = false;
             //using whree and not Single to account for if the login account enterd doesnt exist
             if (newUser == null)
             {
-                ViewBag.error = "Invalid Login";
-            }
-            else
-            {
-               
-                if (newUser.Username=="Admin")
-                {
-                    return Redirect("Index?username="+newUser.Username);
-                }
-                return Redirect("ViewUserProf/" + newUser.ID);
+                ViewBag.error = "Invalid Login or password";
             }
             
+            else
+            {
+                
+                if (newUser.Username == "Admin" )
+                {
+
+                    //Create the identity for the user  
+                    identity = new ClaimsIdentity(new[] 
+                    {
+                    new Claim(ClaimTypes.Name, newUser.Username),
+                    new Claim(ClaimTypes.Role, "Admin")
+                     }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    isAuthenticated = true;
+                }
+
+                else
+                {
+                    //Create the identity for the user  
+                    identity = new ClaimsIdentity(new[] 
+                    {
+                    new Claim(ClaimTypes.Name, newUser.Username),
+                    new Claim(ClaimTypes.Role, "User")
+                    }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    isAuthenticated = true;
+                }
+
+                if (isAuthenticated)
+                {
+                    var principal = new ClaimsPrincipal(identity);
+
+                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    if (newUser.Username == "Admin")
+                    {
+                        return Redirect("Index?username=" + newUser.Username);
+                    }
+                    return Redirect("ViewUserProf?name=" + newUser.Username); 
+                }
+                return View();
+
+               
+                
+            }
+
+           //var xyz=User.Identity.Name;
+           
             return View(addUserViewModel);
         }
 
-        public IActionResult ViewUserProf(int id)
+        [HttpPost]
+        public IActionResult UserLogout()
         {
-            User newUser = context.Users.Single(u => u.ID == id);
-            List<UserProf> listing = context.UserProfs.Include(listing => listing.Professional).Where(up => up.UserID == id).ToList();
-
+            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("User/Login");
+        }
+        public IActionResult ViewUserProf(string name)
+        {
+            User newUser = context.Users.Single(u => u.Username==name);
+            List<UserProf> listing = context.UserProfs.Include(listing => listing.Professional).Where(up => up.UserID == newUser.ID).ToList();
+           // List<Professional> pList = context.Professionals.Where(p => p.ID = listing);
             ViewUserProfViewModel viewUserProfViewModel = new ViewUserProfViewModel
             {
                 User = newUser,
@@ -104,6 +155,7 @@ namespace HirePros.Controllers
         //Menu/AddPros/3
         public IActionResult AddUserPros(int id)
         {
+           
             User user = context.Users.Where(u => u.ID == id).FirstOrDefault();
             List<Professional> profs = context.Professionals.ToList();
             AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
@@ -113,6 +165,7 @@ namespace HirePros.Controllers
         [HttpPost]
         public IActionResult AddUserPros(AddUserProfViewModel addUserProfViewModel)
         {
+           
             if (ModelState.IsValid)
             {
                 var professionalID = addUserProfViewModel.ProfessionalID;
@@ -139,6 +192,7 @@ namespace HirePros.Controllers
             return View(addUserProfViewModel);
         }
 
+ 
 
     }
 }

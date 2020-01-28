@@ -1,33 +1,22 @@
 ﻿
 @model HirePros.ViewModels.AddUserProfViewModel
 
-<form asp-controller="User" asp-action="AddUserPros" method="post">
+    <form asp-controller="User" asp-action="AddUserPros" method="post">
 
 
-    <div class="form-group">
-        <label asp-for="ProfessionalID"> </label>
-        <select asp-for="ProfessionalID" asp-items="Model.Professionals"> </select>
-        <span asp-validation-for="ProfessionalID"></span>
 
-    </div>
+        <div class="form-group">
+            <label asp-for="ProfessionalID"> </label>
+            <select asp-for="ProfessionalID" asp-items="Model.Professionals"> </select>
+            <span asp-validation-for="ProfessionalID"></span>
 
-    <input type="hidden" name="UserID" value="@Model.User.ID">
+        </div>
+
+        <input type="hidden" name="UserID" value="@Model.ProfessionalID">
 
 
-    <input type="submit" value="Shortlist Professional" />
+        <input type="submit" value="Shortlist Professional" />
 
-</form>
+    </form>
 
-<table>
-    @foreach (var xyz in Model.Professionals)
-    {
-        <tr>
-            <td>@Model.Professionals</td>
 
-            <td><a asp-controller="Professional" asp-action="Service" asp-route-id="@Model.Professionals">@Model.Professionals</a></td>
-            <td><a asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.ProfessionalID">Shortlist</a></td>
-
-        </tr>
-    }
-
-</table>

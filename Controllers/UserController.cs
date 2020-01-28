@@ -8,6 +8,7 @@ using HirePros.Models;
 using HirePros.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -132,16 +133,25 @@ namespace HirePros.Controllers
             return View(addUserViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
+        
         public IActionResult UserLogout()
         {
             var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("User/Login");
+            return Redirect("/User/Login");
         }
+
+        [Authorize(Roles ="User")]
         public IActionResult ViewUserProf(string name)
         {
             User newUser = context.Users.Single(u => u.Username==name);
-            List<UserProf> listing = context.UserProfs.Include(listing => listing.Professional).Where(up => up.UserID == newUser.ID).ToList();
+            List<UserProf> listing = context.UserProfs.Include(l => l.Professional).Where(up => up.UserID == newUser.ID).ToList();
+            List<Professional> proList = new List<Professional>();
+            foreach (var pr in listing)
+            {
+                proList.Add(context.Professionals.Include(s => s.Services).Where(p => p.ID == pr.ProfessionalID).FirstOrDefault());
+            }
+           
            // List<Professional> pList = context.Professionals.Where(p => p.ID = listing);
             ViewUserProfViewModel viewUserProfViewModel = new ViewUserProfViewModel
             {
@@ -149,27 +159,31 @@ namespace HirePros.Controllers
                 Listing = listing
             };
 
-            return View(viewUserProfViewModel);
+            
+            return View(proList);
         }
 
         //Menu/AddPros/3
-        public IActionResult AddUserPros(int id)
+        [Authorize(Roles = "User")]
+        public IActionResult AddUserPros(string name)
         {
            
-            User user = context.Users.Where(u => u.ID == id).FirstOrDefault();
+            User user = context.Users.Single(u => u.Username == name);
             List<Professional> profs = context.Professionals.ToList();
             AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
+            //ViewBag.proList = profs;
             return View(addUserProfViewModel);
         }
 
         [HttpPost]
         public IActionResult AddUserPros(AddUserProfViewModel addUserProfViewModel)
         {
-           
+            User user = context.Users.Single(u => u.Username == User.Identity.Name);
+
             if (ModelState.IsValid)
             {
                 var professionalID = addUserProfViewModel.ProfessionalID;
-                var userID = addUserProfViewModel.UserID;
+                var userID = user.ID;
 
                 IList<UserProf> existingPro = context.UserProfs.Where(up => up.UserID == userID).Where(p => p.ProfessionalID == professionalID).ToList();
 
@@ -183,13 +197,13 @@ namespace HirePros.Controllers
                     };
                     context.UserProfs.Add(userList);
                     context.SaveChanges();
-                    return Redirect("/User/ViewUserProf/" + addUserProfViewModel.UserID);
+                    return Redirect("/User/ViewUserProf?name=" + user.Username);
                 }
 
 
             }
 
-            return View(addUserProfViewModel);
+            return Redirect("/User/AddUserPros?name=abcd");
         }
 
  

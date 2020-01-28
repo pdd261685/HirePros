@@ -1,7 +1,7 @@
 ﻿
-@model HirePros.ViewModels.ViewUserProfViewModel
+@model List<HirePros.Models.Professional>
 
-<h1>Welcome @Model.User.Username , your shortlisted professionals:</h1>
+<h1>Welcome @User.Identity.Name , your shortlisted professionals:</h1>
 
 
 <table class="table">
@@ -13,22 +13,22 @@
         <th>Services</th>
         <th></th>
     </tr>
-    @foreach (var userProf in Model.Listing)
+    @foreach (Professional userProf in  Model)
     {
 <tr>
 
 
-    <td>@userProf.Professional.Name</td>
-    <td>@userProf.Professional.Description</td>
-    <td>@userProf.Professional.Email</td>
-    <td>@userProf.Professional.Services</td>
-    <td> <a asp-controller="User" asp-action="Message" asp-route-id="@userProf.UserID">Message Pro</a></td>
+    <td>@userProf.Name</td>
+    <td>@userProf.Description</td>
+    <td>@userProf.Email</td>
+    <td>@userProf.Services.ServiceName</td>
+    
 
 </tr>
      }
     </table>
 
-    @if (Model.Listing.Count == 0)
+    @if (Model.Count == 0)
     {
         <p><i>No professionals selected yet</i></p>
     }
@@ -36,7 +36,7 @@
 
     <div class="col-lg-8 align-self-baseline">
         <p class="text-white-75 font-weight-light mb-5">Looking for more pros to hire</p>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-id="@Model.User.ID">Find Pros</a>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">Find Pros</a>
     </div>
 
     <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>

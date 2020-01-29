@@ -1,6 +1,10 @@
 ﻿
 @model List<HirePros.Models.Professional>
 
+    <authoization>
+        <allow users="@User.Identity.Name" />
+    </authoization>
+
 <h1>Welcome @User.Identity.Name , your shortlisted professionals:</h1>
 
 
@@ -13,7 +17,7 @@
         <th>Services</th>
         <th></th>
     </tr>
-    @foreach (Professional userProf in  Model)
+    @foreach (Professional userProf in Model)
     {
 <tr>
 
@@ -25,7 +29,7 @@
     
 
 </tr>
-     }
+    }
     </table>
 
     @if (Model.Count == 0)
@@ -41,6 +45,8 @@
 
     <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
     <br />
+
+
 
 
 

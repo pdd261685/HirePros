@@ -1,5 +1,8 @@
 ﻿
 @model HirePros.ViewModels.AddUserProfViewModel
+<authoization>
+    <allow users="@User.Identity.Name"/>
+</authoization>
 
     <form asp-controller="User" asp-action="AddUserPros" method="post">
 

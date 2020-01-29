@@ -64,6 +64,7 @@ namespace HirePros.Controllers
 
         public IActionResult Login()
         {
+
             AddUserViewModel addUserViewModel = new AddUserViewModel();
             return View(addUserViewModel);
         } 
@@ -142,37 +143,45 @@ namespace HirePros.Controllers
         }
 
         [Authorize(Roles ="User")]
+        
         public IActionResult ViewUserProf(string name)
         {
-            User newUser = context.Users.Single(u => u.Username==name);
-            List<UserProf> listing = context.UserProfs.Include(l => l.Professional).Where(up => up.UserID == newUser.ID).ToList();
-            List<Professional> proList = new List<Professional>();
-            foreach (var pr in listing)
-            {
-                proList.Add(context.Professionals.Include(s => s.Services).Where(p => p.ID == pr.ProfessionalID).FirstOrDefault());
-            }
-           
-           // List<Professional> pList = context.Professionals.Where(p => p.ID = listing);
-            ViewUserProfViewModel viewUserProfViewModel = new ViewUserProfViewModel
-            {
-                User = newUser,
-                Listing = listing
-            };
+      
+                User newUser = context.Users.Single(u => u.Username == name);
+                List<UserProf> listing = context.UserProfs.Include(l => l.Professional).Where(up => up.UserID == newUser.ID).ToList();
+                List<Professional> proList = new List<Professional>();
+                foreach (var pr in listing)
+                {
+                    proList.Add(context.Professionals.Include(s => s.Services).Where(p => p.ID == pr.ProfessionalID).FirstOrDefault());
+                }
 
+                // List<Professional> pList = context.Professionals.Where(p => p.ID = listing);
+                ViewUserProfViewModel viewUserProfViewModel = new ViewUserProfViewModel
+                {
+                    User = newUser,
+                    Listing = listing
+                };
+
+      
+                return View(proList);
             
-            return View(proList);
+            
         }
 
         //Menu/AddPros/3
         [Authorize(Roles = "User")]
         public IActionResult AddUserPros(string name)
         {
-           
-            User user = context.Users.Single(u => u.Username == name);
-            List<Professional> profs = context.Professionals.ToList();
-            AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
-            //ViewBag.proList = profs;
-            return View(addUserProfViewModel);
+
+             User user = context.Users.Single(u => u.Username == name);
+                List<Professional> profs = context.Professionals.ToList();
+                AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
+
+                //ViewBag.error = " ";
+                return View(addUserProfViewModel);
+            
+            //ViewBag.error = "Unauthorised Access";
+            //return View();
         }
 
         [HttpPost]
@@ -203,7 +212,7 @@ namespace HirePros.Controllers
 
             }
 
-            return Redirect("/User/AddUserPros?name=abcd");
+            return Redirect("/User/AddUserPros?name="+user.Username);
         }
 
  

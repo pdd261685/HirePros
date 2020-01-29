@@ -215,7 +215,13 @@ namespace HirePros.Controllers
             return Redirect("/User/AddUserPros?name="+user.Username);
         }
 
- 
+        /*public IActionResult MessagePro(string name)
+        {
+            User user = context.Users.Single(u => u.Username == name);
+            UserProf userProf = context.UserProfs.Single(u => u.UserID == user.ID);
+            userProf.UserMessage
+        }*/
+
 
     }
 }

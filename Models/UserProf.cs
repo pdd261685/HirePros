@@ -16,5 +16,7 @@ namespace HirePros.Models
         public Professional Professional { get; set; }
 
         //the 2 IDs above are pair of IDs that will facilitate the joint behavior
+
+        public string UserMessage { get; set; }
     }
 }

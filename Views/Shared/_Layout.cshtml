@@ -51,14 +51,18 @@
                         <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="Login">Login</a>
                     </li>
 
+                    @if (User.Identity.Name!=null)
+                    {
 
+                    
                     <li class="nav-item">Hello @User.Identity.Name</li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="UserLogout">Logout</a>
                     </li>
                     <li>
-                        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">AddPros</a>
+                        <a class="btn btn-primary btn-sm js-scroll-trigger" asp-controller="User" asp-action="ViewUserprof" asp-route-name="@User.Identity.Name">MyPros</a>
                     </li>
+                    }
 
 
                 </ul>

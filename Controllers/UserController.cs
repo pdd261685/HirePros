@@ -215,13 +215,23 @@ namespace HirePros.Controllers
             return Redirect("/User/AddUserPros?name="+user.Username);
         }
 
-        /*public IActionResult MessagePro(string name)
+        public IActionResult MessagePro(string name, int pro)
         {
             User user = context.Users.Single(u => u.Username == name);
-            UserProf userProf = context.UserProfs.Single(u => u.UserID == user.ID);
-            userProf.UserMessage
-        }*/
+            UserProf userProf = context.UserProfs.Single(u => u.UserID == user.ID & u.ProfessionalID==pro);
+            return View(userProf);
+        }
 
+        [HttpPost]
+        public IActionResult MessagePro(UserProf userProf)
+        {
 
+            UserProf UserMsg= context.UserProfs.Single(up => up.UserID == userProf.UserID & up.ProfessionalID == userProf.ProfessionalID);
+
+            UserMsg.UserMessage = userProf.UserMessage;
+
+                context.SaveChanges();
+                return Redirect("/User/ViewUserProf?name=" + User.Identity.Name);
+            }
     }
 }

@@ -20,8 +20,8 @@
     else
     {
 
-        <p><a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPro" asp-route-id="@Model.ID"></a>Add new professional to list</p>
-        <p><a asp-controller="User" asp-action="ViewUserProf" asp-route-name="@Model.UserProf">Your list</a></p>
+        <p><a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPro" asp-route-name="@Model.Username"></a>Add new professional to list</p>
+        <p><a asp-controller="User" asp-action="ViewUserProf" asp-route-name="@Model.Username">Your list</a></p>
 
 
     }

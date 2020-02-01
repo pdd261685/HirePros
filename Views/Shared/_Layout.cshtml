@@ -28,12 +28,14 @@
 <body id="page-top">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 " style=" background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%);" id="mainNav">
         <div class="container">
             <a class="navbar-brand js-scroll-trigger" asp-controller="Home" asp-action="Index">HirePro</a>
+
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <a class="btn btn-primary btn-sm js-scroll-trigger" asp-controller="User" asp-action="ViewUserprof" asp-route-name="@User.Identity.Name">MyPros</a>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
                     <li class="nav-item">
@@ -51,17 +53,15 @@
                         <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="Login">Login</a>
                     </li>
 
-                    @if (User.Identity.Name!=null)
+                    @if (User.Identity.Name != null)
                     {
 
-                    
-                    <li class="nav-item">Hello @User.Identity.Name</li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="UserLogout">Logout</a>
-                    </li>
-                    <li>
-                        <a class="btn btn-primary btn-sm js-scroll-trigger" asp-controller="User" asp-action="ViewUserprof" asp-route-name="@User.Identity.Name">MyPros</a>
-                    </li>
+
+                        <li class="nav-item">Hello @User.Identity.Name</li>
+                        <li class="nav-item">
+                            <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="UserLogout">Logout</a>
+                        </li>
+
                     }
 
 
@@ -73,11 +73,11 @@
 
 
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
     <!-- Footer -->
     <footer class="bg-light py-5">
         <div class="container">

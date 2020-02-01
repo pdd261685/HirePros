@@ -19,6 +19,45 @@ namespace HirePros.Controllers
     public class UserController : Controller
     {
         private readonly ServiceDbContext context;
+
+        //Identity & authentication
+        private static (ClaimsIdentity,bool) isUserAutheticated(User newUser)
+        {
+            ClaimsIdentity identity = null;
+            bool isAuthenticated = false;
+          
+            if (newUser != null)
+            {
+
+                if (newUser.Username == "Admin")
+                {
+
+                    //Create the identity for the user  
+                    identity = new ClaimsIdentity(new[]
+                     {
+                            new Claim(ClaimTypes.Name, newUser.Username),
+                            new Claim(ClaimTypes.Role, "Admin")
+                         }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    isAuthenticated = true;
+                }
+
+                else
+                {
+                    //Create the identity for the user  
+                    identity = new ClaimsIdentity(new[]
+                    {
+                            new Claim(ClaimTypes.Name, newUser.Username),
+                            new Claim(ClaimTypes.Role, "User")
+                        }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    isAuthenticated = true;
+                }
+            }    
+
+            return (identity,isAuthenticated);
+ 
+        }
         public UserController(ServiceDbContext dbContext)
         {
             context = dbContext;
@@ -54,8 +93,28 @@ namespace HirePros.Controllers
                 context.Users.Add(newUser);
                 context.SaveChanges();
 
+                bool isAuthenticated;
+                ClaimsIdentity identity;
+                (identity, isAuthenticated) = isUserAutheticated(newUser);
+                if (isAuthenticated)
+                {
+                    var principal = new ClaimsPrincipal(identity);
+
+                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    if (newUser.Username == "Admin")
+                    {
+                        return Redirect("Index?username=" + newUser.Username);
+                    }
+                    return Redirect("ViewUserProf?name=" + newUser.Username);
+                }
+
+
+                //var xyz=User.Identity.Name;
+
+                
                 return Redirect("Index?username=" + newUser.Username);
-                //return Redirect("VieUserProf/"+newUser.ID);
+               
 
             }
 
@@ -73,44 +132,24 @@ namespace HirePros.Controllers
         public IActionResult Login(AddUserViewModel addUserViewModel)
         {
 
-            User newUser = context.Users.Where(u => u.Username == addUserViewModel.Username & u.Password == addUserViewModel.Password).FirstOrDefault();
-            
-            ClaimsIdentity identity = null;
-            bool isAuthenticated = false;
-            //using whree and not Single to account for if the login account enterd doesnt exist
+            User newUser = context.Users.Where(u => u.Username == addUserViewModel.Username).FirstOrDefault();
+                
+            //using where and not Single to account for if the login account enterd doesnt exist
             if (newUser == null)
             {
-                ViewBag.error = "Invalid Login or password";
+                ViewBag.error = " User account does not exist ";
+
             }
-            
+            else if (newUser.Password!= addUserViewModel.Password)
+            {
+                ViewBag.error = "Invalid Password";
+            }
+
             else
             {
-                
-                if (newUser.Username == "Admin" )
-                {
-
-                    //Create the identity for the user  
-                    identity = new ClaimsIdentity(new[] 
-                    {
-                    new Claim(ClaimTypes.Name, newUser.Username),
-                    new Claim(ClaimTypes.Role, "Admin")
-                     }, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    isAuthenticated = true;
-                }
-
-                else
-                {
-                    //Create the identity for the user  
-                    identity = new ClaimsIdentity(new[] 
-                    {
-                    new Claim(ClaimTypes.Name, newUser.Username),
-                    new Claim(ClaimTypes.Role, "User")
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    isAuthenticated = true;
-                }
-
+                bool isAuthenticated;
+                ClaimsIdentity identity;
+                (identity, isAuthenticated) = isUserAutheticated(newUser);
                 if (isAuthenticated)
                 {
                     var principal = new ClaimsPrincipal(identity);
@@ -121,15 +160,11 @@ namespace HirePros.Controllers
                     {
                         return Redirect("Index?username=" + newUser.Username);
                     }
-                    return Redirect("ViewUserProf?name=" + newUser.Username); 
+                    return Redirect("ViewUserProf?name=" + newUser.Username);
                 }
-                return View();
-
-               
-                
             }
 
-           //var xyz=User.Identity.Name;
+          //var xyz=User.Identity.Name;
            
             return View(addUserViewModel);
         }
@@ -170,15 +205,16 @@ namespace HirePros.Controllers
 
         //Menu/AddPros/3
         [Authorize(Roles = "User")]
-        public IActionResult AddUserPros(string name)
+        public IActionResult AddUserPros(string name, string error="")
         {
 
              User user = context.Users.Single(u => u.Username == name);
-                List<Professional> profs = context.Professionals.ToList();
-                AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
+             List<Professional> profs = context.Professionals.ToList();
 
-                //ViewBag.error = " ";
-                return View(addUserProfViewModel);
+             AddUserProfViewModel addUserProfViewModel = new AddUserProfViewModel(user, profs);
+
+             ViewBag.error = error;
+             return View(addUserProfViewModel);
             
             //ViewBag.error = "Unauthorised Access";
             //return View();
@@ -208,7 +244,12 @@ namespace HirePros.Controllers
                     context.SaveChanges();
                     return Redirect("/User/ViewUserProf?name=" + user.Username);
                 }
-
+                else
+                {
+                    string err = "Already added, Please choose another Pro";
+                    return Redirect("/User/AddUserPros?name=" + user.Username+"&error="+err);
+                }
+                
 
             }
 

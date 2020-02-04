@@ -1,30 +1,42 @@
 ﻿@model HirePros.ViewModels.AddUserViewModel
 
-@{
-    ViewData["Title"] = "Login";
-}
-    <body>
-        
-        <h1>Login</h1>
-        <h2 > @ViewBag.error</h2>
-        @if(ViewBag.error=="Invalid Login")
-        {
-            <h4> Dont have an account?<a asp-controller="User" asp-action="Add" >Signup</a> here </h4>
-        }
-    <form asp-controller="User" asp-action="Login" method="post">
 
-        <div class="form-group">
-            <label asp-for="@Model.Username"></label><br />
-            <input class="form-control" asp-for="@Model.Username" value="@Model.Username" />
-            <span asp-validation-for="@Model.Username"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Password"></label><br />
-            <input class="form-control" asp-for="@Model.Password" />
-            <span asp-validation-for="@Model.Password"></span>
-        </div>
+<body id="page-top">
 
-        <input type="submit" value="Login" />
-        <h4>Don't have an account? <a asp-controller="User" asp-action="Add">Signup </a> here! </h4>
-    </form>
-    </body>
+    <!-- Masthead -->
+    <header class="page-section bg-secondary">
+
+        <div class="container">
+
+
+            <h2 class="text-primary"> @ViewBag.error</h2>
+
+            <div class="align-items-center justify-content-center text-center ">
+                <form asp-controller="User" asp-action="Login" method="post">
+                    <table class="table-borderless" width="600" height="200" bgcolor="#f4623a" style="padding-left:20em;border-spacing:80px">
+                        <tr padding: 8px;>
+                            <td colspan=2><center><font size=5><b>Login Page</b></font></center></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="@Model.Username"></label></td>
+                            <td> <input class="form-control" asp-for="@Model.Username" value="@Model.Username" /></td>
+                            <td><span asp-validation-for="@Model.Username"></span></td>
+                        </tr>
+                        <tr></tr>
+                        <tr>
+                            <td><label asp-for="@Model.Password"></label></td>
+                            <td> <input class="form-control" asp-for="@Model.Password" value="@Model.Password" /></td>
+                            <td><span asp-validation-for="@Model.Password"></span></td>
+                        </tr>
+                        <tr></tr>
+
+                        <tr> <td><input type="submit" value="Login" /> </td> </tr>
+                    </table>
+
+                </form>
+            </div><br />
+            <h4 allign="centre">Don't have an account? <a asp-controller="User" asp-action="Add">Signup </a> here! </h4>
+        </div>
+    </header>
+</body>
+<!-- About Section -->

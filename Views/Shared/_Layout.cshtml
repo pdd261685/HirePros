@@ -11,17 +11,17 @@
     <title>Hire Pro</title>
 
     <!-- Font Awesome Icons -->
-    <link href="lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" runat="">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
 
     <!-- Plugin CSS -->
-    <link href="lib/magnific-popup/magnific-popup.css" rel="stylesheet">
+    <link href="~/lib/magnific-popup/magnific-popup.css" rel="stylesheet">
 
     <!-- Theme CSS - Includes Bootstrap -->
-    <link href="css/creative.min.css" rel="stylesheet">
+    <link href="~/css/creative.min.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -57,7 +57,19 @@
                     {
 
 
-                        <li class="nav-item">Hello @User.Identity.Name</li>
+                        @if (User.Identity.Name == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="Index" asp-route-Username="@User.Identity.Name">Hello @User.Identity.Name</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="ViewUserProf" asp-route-name="@User.Identity.Name">Hello @User.Identity.Name</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link js-scroll-trigger" asp-controller="User" asp-action="UserLogout">Logout</a>
                         </li>
@@ -70,13 +82,24 @@
         </div>
     </nav>
 
-
-
-
-
+ 
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
+
+    <!-- About Section -->
+    <section class="page-section bg-primary" id="about">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="text-white mt-0">We've got what you need!</h2>
+                    <hr class="divider light my-4">
+                    <p class="text-white-50 mb-4">HirePros listings hlep you search and choose from all the services and pros arround you and running in no time! Choose one or multiple of them, send them a requirement message and connect easily ! Hire them only if you like the deal!</p>
+                    <a class="btn btn-light btn-xl js-scroll-trigger" asp-controller="User" asp-action="Login">Get Started!</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-light py-5">
@@ -86,15 +109,15 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="lib/jquery/jquery.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="lib/jquery-easing/jquery.easing.min.js"></script>
-    <script src="lib/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/lib/magnific-popup/jquery.magnific-popup.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/creative.min.js"></script>
+    <script src="~/js/creative.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

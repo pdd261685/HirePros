@@ -21,7 +21,7 @@ namespace HirePros.Controllers
         private readonly ServiceDbContext context;
 
         //Identity & authentication
-        private static (ClaimsIdentity,bool) isUserAutheticated(User newUser)
+        private static (ClaimsIdentity,bool) IsUserAutheticated(User newUser)
         {
             ClaimsIdentity identity = null;
             bool isAuthenticated = false;
@@ -95,7 +95,8 @@ namespace HirePros.Controllers
 
                 bool isAuthenticated;
                 ClaimsIdentity identity;
-                (identity, isAuthenticated) = isUserAutheticated(newUser);
+                (identity, isAuthenticated) = IsUserAutheticated(newUser);
+
                 if (isAuthenticated)
                 {
                     var principal = new ClaimsPrincipal(identity);
@@ -111,7 +112,6 @@ namespace HirePros.Controllers
 
 
                 //var xyz=User.Identity.Name;
-
                 
                 return Redirect("Index?username=" + newUser.Username);
                
@@ -149,7 +149,7 @@ namespace HirePros.Controllers
             {
                 bool isAuthenticated;
                 ClaimsIdentity identity;
-                (identity, isAuthenticated) = isUserAutheticated(newUser);
+                (identity, isAuthenticated) = IsUserAutheticated(newUser);
                 if (isAuthenticated)
                 {
                     var principal = new ClaimsPrincipal(identity);
@@ -223,7 +223,7 @@ namespace HirePros.Controllers
         [HttpPost]
         public IActionResult AddUserPros(AddUserProfViewModel addUserProfViewModel)
         {
-            User user = context.Users.Single(u => u.Username == User.Identity.Name);
+            User user = context.Users.Single(u => u.ID == addUserProfViewModel.UserID);
 
             if (ModelState.IsValid)
             {

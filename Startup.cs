@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HirePros.Data;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace HirePros
@@ -57,6 +59,13 @@ namespace HirePros
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+           /* app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+              Path.Combine(Directory.GetCurrentDirectory(), @"Libs")),
+                RequestPath = new PathString("/libs")
+            });*/
 
             app.UseCookiePolicy();
             app.UseAuthentication();

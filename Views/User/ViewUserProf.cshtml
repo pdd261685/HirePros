@@ -1,52 +1,60 @@
 ﻿
 @model List<HirePros.Models.Professional>
 
-    <authoization>
-        <allow users="@User.Identity.Name" />
-    </authoization>
+<authoization>
+    <allow users="@User.Identity.Name" />
+</authoization>
+<body id="page-top">
 
-<h1>Welcome @User.Identity.Name , your shortlisted professionals:</h1>
+    <!-- Masthead -->
+    <header class="page-section">
 
-
-<table class="table">
-
-    <tr>
-        <th>Company/Professional Name</th>
-        <th>Description</th>
-        <th>Email</th>
-        <th>Services</th>
-        <th></th>
-    </tr>
-    @foreach (Professional userProf in Model)
-    {
-<tr>
+        <div class="container">
+            <h1>Welcome @User.Identity.Name , your shortlisted professionals:</h1>
 
 
-    <td>@userProf.Name</td>
-    <td>@userProf.Description</td>
-    <td>@userProf.Email</td>
-    <td>@userProf.Services.ServiceName</td>
-    <td><a asp-controller="User" asp-action="MessagePro" asp-route-name="@User.Identity.Name" asp-route-pro="@userProf.ID">MessagePro</a></td>
-    
+            <table class="table">
 
-</tr>
-    }
-    </table>
-
-    @if (Model.Count == 0)
-    {
-        <p><i>No professionals selected yet</i></p>
-    }
+                <tr>
+                    <th>Company/Professional Name</th>
+                    <th>Description</th>
+                    <th>Email</th>
+                    <th>Services</th>
+                    <th></th>
+                </tr>
+                @foreach (Professional userProf in Model)
+                {
+                    <tr>
 
 
-    <div class="col-lg-8 align-self-baseline">
-        <p class="text-white-75 font-weight-light mb-5">Looking for more pros to hire</p>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">Find Pros</a>
-    </div>
+                        <td>@userProf.Name</td>
+                        <td>@userProf.Description</td>
+                        <td>@userProf.Email</td>
+                        <td>@userProf.Services.ServiceName</td>
+                        <td><a asp-controller="User" asp-action="MessagePro" asp-route-name="@User.Identity.Name" asp-route-pro="@userProf.ID">MessagePro</a></td>
 
-    <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
-    <br />
 
+                    </tr>
+                }
+            </table>
+
+            @if (Model.Count == 0)
+            {
+                <p><i>No professionals selected yet</i></p>
+            }
+
+
+            <div class="col-lg-8 align-self-baseline">
+                <p class="text-white-75 font-weight-light mb-5">Looking for more pros to hire</p>
+                <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">Find Pros</a>
+            </div>
+
+            <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
+            <br />
+
+            </div>
+        </header>
+    </body>
 
 
 

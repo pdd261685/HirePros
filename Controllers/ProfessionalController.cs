@@ -83,9 +83,10 @@ namespace HirePros.Controllers
             Services theServ = context.Services.Include(prof => prof.Professionals).Single(prof => prof.ID == id);
             //to refernce all the professionals from the other side of the relationship, services side
 
-            ViewBag.Title = "Professionals provinding " + theServ.ServiceName + " :";
+            ViewBag.Title = "Professionals offering " + theServ.ServiceName + " :";
+            IList<Professional> profs = theServ.Professionals.ToList();
 
-            return View("Index", theServ.Professionals);
+            return View("Index",profs);
 
 
         }

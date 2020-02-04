@@ -1,18 +1,25 @@
 ﻿
 @model HirePros.Models.UserProf
 
-<h1>MessagePro</h1>
-<form asp-controller="User" asp-action="MessagePro" method="post">
+<body id="page-top">
 
-    <div class="form-group">
-        <label asp-for="@Model.UserMessage"></label><br />
-        <textarea class="form-control" asp-for="@Model.UserMessage" value="@Model.UserMessage" ></textarea>
-        <span asp-validation-for="@Model.UserMessage"></span>
-    </div>
+    <!-- Masthead -->
+    <header class="page-section bg-secondary">
+        <h1>MessagePro</h1>
+        <form asp-controller="User" asp-action="MessagePro" method="post">
 
-    <input type="hidden" name="UserID" value="@Model.UserID" />
+            <div class="form-group">
+                <label asp-for="@Model.UserMessage"></label><br />
+                <textarea class="form-control" asp-for="@Model.UserMessage" value="@Model.UserMessage"></textarea>
+                <span asp-validation-for="@Model.UserMessage"></span>
+            </div>
 
-    <input type="hidden" name="ProfessionalID" value="@Model.ProfessionalID" />
+            <input type="hidden" name="UserID" value="@Model.UserID" />
 
-    <input type="submit" value="Send" />
-</form>
+            <input type="hidden" name="ProfessionalID" value="@Model.ProfessionalID" />
+
+            <input type="submit" value="Send" />
+        </form>
+    </header>
+</body>
+<!-- About Section -->

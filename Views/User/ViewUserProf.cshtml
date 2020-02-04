@@ -10,14 +10,14 @@
     <header class="page-section">
 
         <div class="container">
-            <h1>Welcome @User.Identity.Name , your shortlisted professionals:</h1>
+            <h2 class="mt-0 text-secondary">Welcome @User.Identity.Name , your shortlisted professionals:</h2>
 
 
-            <table class="table">
+            <table class="table-striped form-row text-xl-center" content="width=device-width">
 
-                <tr>
-                    <th>Company/Professional Name</th>
-                    <th>Description</th>
+                <tr class="justify-content-center" >
+                    <th style="padding: 26px;" >Company/Professional Name</th>
+                    <th >Description</th>
                     <th>Email</th>
                     <th>Services</th>
                     <th></th>
@@ -27,29 +27,29 @@
                     <tr>
 
 
-                        <td>@userProf.Name</td>
-                        <td>@userProf.Description</td>
-                        <td>@userProf.Email</td>
-                        <td>@userProf.Services.ServiceName</td>
-                        <td><a asp-controller="User" asp-action="MessagePro" asp-route-name="@User.Identity.Name" asp-route-pro="@userProf.ID">MessagePro</a></td>
-
+                        <td style="padding: 20px; width:15em" >@userProf.Name</td>
+                        <td style="width:30em">@userProf.Description     </td>
+                        <td style="width:20em">@userProf.Email</td>
+                        <td style="width:15em">@userProf.Services.ServiceName</td>
+                        <td style="width:10em"><a asp-controller="User" asp-action="MessagePro" asp-route-name="@User.Identity.Name" asp-route-pro="@userProf.ID">MessagePro</a></td>
+                        
 
                     </tr>
                 }
             </table>
-
+            
             @if (Model.Count == 0)
             {
-                <p><i>No professionals selected yet</i></p>
+                <p class="text-primary"><i>No professionals selected yet</i></p>
             }
 
 
             <div class="col-lg-8 align-self-baseline">
-                <p class="text-white-75 font-weight-light mb-5">Looking for more pros to hire</p>
-                <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">Find Pros</a>
+                <br />
+                <a class="btn btn-primary btn-xl js-scroll-trigger" asp-controller="User" asp-action="AddUserPros" asp-route-name="@User.Identity.Name">Add More Pros</a>
             </div>
-
-            <p><a asp-controller="Service" asp-action="Index">Looking for</a></p>
+            <br />
+            <p><a asp-controller="Service" asp-action="Index">Find Services</a></p>
             <br />
 
             </div>

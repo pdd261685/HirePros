@@ -5,21 +5,23 @@
 
     <!-- Masthead -->
     <header class="page-section bg-secondary">
-        <h1>MessagePro</h1>
-        <form asp-controller="User" asp-action="MessagePro" method="post">
+        <div class="container text-lg-left ">
+            <h1>MessagePro</h1>
+            <form asp-controller="User" asp-action="MessagePro" method="post">
 
-            <div class="form-group">
-                <label asp-for="@Model.UserMessage"></label><br />
-                <textarea class="form-control" asp-for="@Model.UserMessage" value="@Model.UserMessage"></textarea>
-                <span asp-validation-for="@Model.UserMessage"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.UserMessage" value="Message"></label><br />
+                    <textarea class="form-control" width="70" height="30" asp-for="@Model.UserMessage" value="@Model.UserMessage"></textarea>
+                    <span asp-validation-for="@Model.UserMessage"></span>
+                </div>
+
+                <input type="hidden" name="UserID" value="@Model.UserID" />
+
+                <input type="hidden" name="ProfessionalID" value="@Model.ProfessionalID" />
+
+                <input type="submit" value="Send" />
+            </form>
             </div>
-
-            <input type="hidden" name="UserID" value="@Model.UserID" />
-
-            <input type="hidden" name="ProfessionalID" value="@Model.ProfessionalID" />
-
-            <input type="submit" value="Send" />
-        </form>
     </header>
 </body>
 <!-- About Section -->
